@@ -2,6 +2,7 @@ import numpy as np
 from Register import Register
 from Qubit import Qubit
 import Operators as op
+import Gates as G
 def kronTest():
 	g = np.array([[0],[1]])
 	h = np.array([[1/np.sqrt(2)],[1j/np.sqrt(2)]])
@@ -19,21 +20,20 @@ def threeSevenTest():
 	q3 = Qubit(0,1)
 	qubs = [q1,q2,q3]
 	register = Register(qubs)
-	register.update_basis()
-
+	register.updateS()
 	print("START 011 dec 3")
 	print(q1.coefs,q2.coefs,q3.coefs)
 	
-	print(register.stated)
+	op.printMat(register.stateS)
 	print("DONE")
 	print()
 
 	q1.upd(0,1)
 	
-	register.update_basis()
+	register.updateS()
 	print("START 111 dec 7")
 	print(q1.coefs,q2.coefs,q3.coefs)
-	print(register.stated)
+	op.printMat(register.stateS)
 	print("DONE")
 	print()
 
@@ -41,8 +41,8 @@ def threeSevenTest():
 	print("SUPERPOS QUBIT1 2**-.5")
 	q1.upd(2**-.5,2**-.5)
 	print(q1.coefs,q2.coefs,q3.coefs)
-	register.update_basis()
-	print(register.stated)
+	register.updateS()
+	op.printMat(register.stateS)
 	print()
 	return register
 
@@ -52,13 +52,13 @@ def hadamardTest():
 	q3 = Qubit(0,1)
 	qubs = [q1,q2,q3]
 	register = Register(qubs)
-	register.update_basis()
-	register.new_hadamard([1,1,1])
-	register.update_basis()
+	register.updateS()
+	register = G.hadamard(register,[1,1,1])
+	register.updateS()
 
 	print("START Hadamard Test ALL QUBITS")
 
-	print(register.stated)
+	op.printMat(register.stateS)
 	print()
 	#print(register.qubits[0])
 	
@@ -67,10 +67,11 @@ def hadamardTest():
 
 def normalizedTest(register):
 	print("START normalizedTest")
-	print(register.stated)
+	print(register.stateS)
+
 	total = 0
-	for i in range(len(register.stated)):
-		total += round(register.stated[i]**2,6)
+	for i in range(len(register.stateS)):
+		total += round(register.stateS[i][0]**2,6)
 	print("REGISTER IS NORMALIZED:",total == 1)
 	print()
 
@@ -81,14 +82,16 @@ def hadAdvanced():
 	q3 = Qubit(0,1)
 	qubs = [q1,q2,q3]
 	register = Register(qubs)
-	register.update_basis()
-	register.new_hadamard([1,0,1])
-	register.update_basis()
-
-	prod = op.tensorProd([[2**-.5,2**-.5],[2**-.5,-2**-.5]],[[1,0],[0,1]])
-	prod2 = op.tensorProd(prod,[[2**-.5,2**-.5],[2**-.5,-2**-.5]])
+	register.updateS()
+	register = G.hadSparse(register,[1,1,1])
+	register.updateE()
+	op.printMat(register.stateE)
 	
-	#op.printMat(prod)
-	print("HADAMARD TEST H * I * H: FROM EXAMPLE")
-	op.printMat(prod2)
-	print("MATCHING")
+
+
+def CNOTtest():
+	q1 = Qubit(0,1)
+	q2 = Qubit(0,1)
+	qubs = [q1,q2]
+	register = Register(qubs)
+	register.updateS()
