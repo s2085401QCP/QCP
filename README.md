@@ -1,15 +1,7 @@
 # QCP
 2023 Quantum Computing Project
+comments are added to code to aid understanding
 
-TODO:
--Plan of program
-
--determine data structure
--Tensor product function
--basic gates
--gates in series
-
--CHECK ONCE COMPLETE- can compare to existing simulation softwares
--Proof, basic cnot - entangled states
-
--Determine whether to build from basic or build from scratch
+in general, the computer uses tensor products to create its state, this is a vertical matrix.
+this is then multiplied against the gate in matrix form and the output is a vector superposition of the states
+when output states contain a 1 we can call it a product state and our computation is finished (assuming all gates have been run through)

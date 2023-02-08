@@ -83,15 +83,51 @@ def hadAdvanced():
 	qubs = [q1,q2,q3]
 	register = Register(qubs)
 	register.updateS()
+	register = G.hadamard(register,[1,0,1])
+	register.updateS()
+
+	prod = op.tensorProd([[2**-.5,2**-.5],[2**-.5,-2**-.5]],[[1,0],[0,1]])
+	prod2 = op.tensorProd(prod,[[2**-.5,2**-.5],[2**-.5,-2**-.5]])
+		#op.printMat(prod)
+	print("HADAMARD TEST H * I * H: FROM EXAMPLE")
+	op.printMat(prod2)
+	print("MATCHING")
+
+def stateTest():
+	q1 = Qubit(0,1)
+	q2 = Qubit(0,1)
+	q3 = Qubit(0,1)
+	qubs = [q1,q2,q3]
+	register = Register(qubs)
+	register.updateS()
 	register = G.hadSparse(register,[1,1,1])
 	register.updateE()
+	print("STATE TEST - USES REGISTER AND NON EXPLICIT MATRIX")
 	op.printMat(register.stateE)
 	
 
 
 def CNOTtest():
-	q1 = Qubit(0,1)
-	q2 = Qubit(0,1)
-	qubs = [q1,q2]
-	register = Register(qubs)
-	register.updateS()
+	a = [[1,0]]
+	b = [[1,0]]
+	r = op.tensorProd(a,b)
+	op.printMat(op.matrixMulti(r,G.C))
+
+	a = [[1,0]]
+	b = [[0,1]]
+	r = op.tensorProd(a,b)
+	op.printMat(op.matrixMulti(r,G.C))
+
+	a = [[0,1]]
+	b = [[1,0]]
+	r = op.tensorProd(a,b)
+	op.printMat(op.matrixMulti(r,G.C))
+
+	a = [[0,1]]
+	b = [[0,1]]
+	r = op.tensorProd(a,b)
+	op.printMat(op.matrixMulti(r,G.C))
+	op.printMat(G.C)
+	
+
+

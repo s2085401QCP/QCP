@@ -1,10 +1,25 @@
 import Operators as op
 
+I = [[1,0],[0,1]]
+C = [[1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0]]
+
+H = [[2**-.5,2**-.5],[2**-.5,-2**-.5]]
+
+def CNOT(register,a,b):
+	qa = register.qubits[a]
+	qb = register.qubits[b]
+	#print(qa)
+	stateS = op.tensorProd(qa.coefs,qb.coefs)
+	#op.printMat(stateS)
+
+	stateE = op.matrixMulti(C,stateS)
+	register.stateE = stateE
+	return register
+
+
+
 def hadSparse(register,qbool):
 	qs = register.qubits
-	H = [[2**-.5,2**-.5],[2**-.5,-2**-.5]]
-	I = [[1,0],[0,1]]
-
 	prouduct = I
 	if qbool[0]:
 		product = H
@@ -18,8 +33,6 @@ def hadSparse(register,qbool):
 	return register
 
 def hadamard(register,qbool):
-	
-	H = [[2**-.5,2**-.5],[2**-.5,-2**-.5]]
 	qs = register.qubits
 
 	for i in range(len(qbool)):
@@ -37,3 +50,4 @@ def hadamard(register,qbool):
 				print("ERROR IN COMPARISON: HADAMARD GATE FAIL ON QUBIT- ",i)
 				print(res1,"COMPARED TO",res2)
 	return register
+

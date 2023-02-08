@@ -15,7 +15,10 @@ op.printMat(r1.stateS)
 
 r2 = Tests.hadamardTest()
 Tests.normalizedTest(r2)
-
+Tests.stateTest()
 Tests.hadAdvanced()
 
+
 r2.updateE()
+
+Tests.CNOTtest()
