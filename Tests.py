@@ -3,6 +3,9 @@ from Register import Register
 from Qubit import Qubit
 import Operators as op
 import Gates as G
+
+# tests to ensure program is working as intended
+# check against notes to confirm proper operation
 def kronTest():
 	g = np.array([[0],[1]])
 	h = np.array([[1/np.sqrt(2)],[1j/np.sqrt(2)]])

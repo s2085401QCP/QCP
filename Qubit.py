@@ -4,8 +4,7 @@ class Qubit:
 			self.b = b
 			self.coefs = [[a],[b]] # could maybe use tuple
 
-	# do not use alta or altb except in specific circumstances as does not account for negative state coefficients
-
+	# simple class to create a qubit, may be useful in future
 	def upd(self,a,b):
 		self.a = a
 		self.b = b

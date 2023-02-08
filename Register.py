@@ -5,6 +5,9 @@ import numpy as np
 class Register:	
 
 	def __init__(self,qubits):
+		# the register holds the qubit classes as an array
+		# it stores the start and end states as tensor products
+		# it also has a working matrix register which is where we can load gates into if needed
 		self.qubits = qubits
 		self.qs = len(qubits)
 		self.n = 2**self.qs
@@ -24,7 +27,6 @@ class Register:
 
 		for i in range(2,self.qs):
 			product = op.tensorProd(product,self.qubits[i].coefs)
-		#rint(product)
 		self.stateS = product
 
 	def updateE(self):

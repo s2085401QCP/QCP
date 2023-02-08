@@ -1,7 +1,11 @@
+# this file contains some of the matrix operators we are not allowed to use from packages
+# they have much room for improvement with numpy arrays
+
 def printMat(a):
 	for i in range(len(a)):
 		print(a[i])
 	print()
+
 
 def TransMatrix(a):
 	Ta = [[0]*len(a) for _ in range(len(a[0]))]
@@ -9,7 +13,9 @@ def TransMatrix(a):
 		for j in range(len(a[i])):
 			Ta[j][i] = a[i][j]
 	return Ta
-	# flips matrix
+	# matrix T
+
+
 
 def matrixMulti(a,b):
 	m = len(a)

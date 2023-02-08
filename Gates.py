@@ -1,5 +1,7 @@
 import Operators as op
 
+# identity matrix, hadamard gate and cnot gate
+
 I = [[1,0],[0,1]]
 C = [[1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0]]
 
@@ -8,17 +10,25 @@ H = [[2**-.5,2**-.5],[2**-.5,-2**-.5]]
 def CNOT(register,a,b):
 	qa = register.qubits[a]
 	qb = register.qubits[b]
-	#print(qa)
-	stateS = op.tensorProd(qa.coefs,qb.coefs)
-	#op.printMat(stateS)
 
+	# this initialises the start state as the tensor product of the two qubit coeficients
+	stateS = op.tensorProd(qa.coefs,qb.coefs)
+	
+	# creates the end state as the multiplication of the CNOT matrix and the start state
+	# may need updated
 	stateE = op.matrixMulti(C,stateS)
 	register.stateE = stateE
+
+	# returns the register with its updated states
 	return register
 
 
 
 def hadSparse(register,qbool):
+
+	# This does similar as above but with hadamard gates and identity matrices, 
+	# both are needed as the tensor product doesnt always reduce to square ( in cases where the matrices arent square)
+	# so we use the identity matrix to ensure all matrices are square
 	qs = register.qubits
 	prouduct = I
 	if qbool[0]:
