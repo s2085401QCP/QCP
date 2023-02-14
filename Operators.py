@@ -22,7 +22,7 @@ def matrixMulti(a,b):
 	dimension = len(a)
 
 	# use assert for error control 
-	assert len(a[0]) == len(b)
+	assert len(a[0]) == len(b), "Matrices of different dimensions cannot be multiplied"
 	n = len(b)
 	p = len(b[0])
 	product = [[0]*p for _ in range(m)]
@@ -37,6 +37,7 @@ def matrixMulti(a,b):
 	return product
 
 # look to optimize and variable naming 
+# also add in asserts to check for incompatible matrices
 def tensorProd(a,b):
 	
 	rwid =len(a[0])*len(b[0])
