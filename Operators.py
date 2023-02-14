@@ -17,8 +17,7 @@ def transposeMatrix(a):
 
 
 # change name on matrix 
-def matrixMulti(a,b):
-	# dimension 
+def matrixMulti(a,b): 
 	dimension = len(a)
 
 	# use assert for error control 
