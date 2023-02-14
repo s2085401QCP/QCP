@@ -2,42 +2,37 @@
 # they have much room for improvement with numpy arrays
 
 # change name and can be optimised by just unpacking the list 
-def printMat(a):
-	for i in range(len(a)):
-		print(a[i])
-	print()
+def printMatrix(a):
+	print(*a) 
 
 # change name to something more clear 
-def TransMatrix(a):
+def transposeMatrix(a):
 	# change variable name 
-	Ta = [[0]*len(a) for _ in range(len(a[0]))]
+	a_T = [[0]*len(a) for _ in range(len(a[0]))]
 	for i in range(len(a)):
 		for j in range(len(a[i])):
-			Ta[j][i] = a[i][j]
-	return Ta
+			a_T[j][i] = a[i][j]
+	return a_T
 	# matrix T
 
 
 # change name on matrix 
 def matrixMulti(a,b):
 	# dimension 
-	m = len(a)
+	dimension = len(a)
 
 	# use assert for error control 
-	if (len(a[0]) == len(b)):
-		n = len(b)
-		p = len(b[0])
-		product = [[0]*p for _ in range(m)]
-		for i in range(m):
-			for j in range(p):
-				c = 0
-				for k in range(n):
-					c += a[i][k]*b[k][j]
-				# could change rounding magnitude to a class member, so precision can be changed simply 
-				product[i][j] = round(c,6) ###### IMPORTANT ROUNDING WITHIN FUNCTION
-	else:
-		print("ERROR: Matrix sizes not aligned,  cannot multiply")
-		return []
+	assert len(a[0]) == len(b)
+	n = len(b)
+	p = len(b[0])
+	product = [[0]*p for _ in range(m)]
+	for i in range(dimension):
+		for j in range(p):
+			c = 0
+			for k in range(n):
+				c += a[i][k]*b[k][j]
+			# could change rounding magnitude to a class member, so precision can be changed simply 
+			product[i][j] = round(c,6) ###### IMPORTANT ROUNDING WITHIN FUNCTION
 
 	return product
 
