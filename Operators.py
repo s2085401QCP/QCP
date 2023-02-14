@@ -1,6 +1,7 @@
 # this file contains some of the matrix operators we are not allowed to use from packages
 # they have much room for improvement with numpy arrays
 
+# change name 
 def printMat(a):
 	for i in range(len(a)):
 		print(a[i])
