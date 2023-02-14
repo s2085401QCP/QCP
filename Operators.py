@@ -1,14 +1,15 @@
 # this file contains some of the matrix operators we are not allowed to use from packages
 # they have much room for improvement with numpy arrays
 
-# change name 
+# change name and can be optimised by just unpacking the list 
 def printMat(a):
 	for i in range(len(a)):
 		print(a[i])
 	print()
 
-
+# change name to something more clear 
 def TransMatrix(a):
+	# change variable name 
 	Ta = [[0]*len(a) for _ in range(len(a[0]))]
 	for i in range(len(a)):
 		for j in range(len(a[i])):
@@ -17,10 +18,12 @@ def TransMatrix(a):
 	# matrix T
 
 
-
+# change name on matrix 
 def matrixMulti(a,b):
+	# dimension 
 	m = len(a)
 
+	# use assert for error control 
 	if (len(a[0]) == len(b)):
 		n = len(b)
 		p = len(b[0])
@@ -30,6 +33,7 @@ def matrixMulti(a,b):
 				c = 0
 				for k in range(n):
 					c += a[i][k]*b[k][j]
+				# could change rounding magnitude to a class member, so precision can be changed simply 
 				product[i][j] = round(c,6) ###### IMPORTANT ROUNDING WITHIN FUNCTION
 	else:
 		print("ERROR: Matrix sizes not aligned,  cannot multiply")
@@ -37,11 +41,13 @@ def matrixMulti(a,b):
 
 	return product
 
+# look to optimize and variable naming 
 def tensorProd(a,b):
 	
 	rwid =len(a[0])*len(b[0])
 	rheight = len(a)*len(b)
 
+	# use numpy arrays
 	tensa = [[0]*rwid for _ in range(rheight)]
 	tensb = [[0]*rwid for _ in range(rheight)]
 
