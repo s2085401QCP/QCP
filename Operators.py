@@ -1,3 +1,4 @@
+import numpy as np
 # this file contains some of the matrix operators we are not allowed to use from packages
 # they have much room for improvement with numpy arrays
 
@@ -35,45 +36,27 @@ def matrixMulti(a,b):
 
 	return product
 
-# look to optimize and variable naming 
-# also add in asserts to check for incompatible matrices
-def tensorProd(a,b):
+def tensorProd(a, b):
+	"""
+	Compute the tensor product of two matrices 
+	:param a: input matrix a
+	:param b: input matrix b
+	:return: tensor product of the two matrices
+	"""
+    
+	assert type(a) is np.ndarray and type(b) is np.ndarray, "Input matrices were not numpy arrays" 
+
+	a_dims = a.shape
+	b_dims = b.shape
+
+	# calculates the dimensions of final product by concantinating the tuples
+	result_dims = a_dims + b_dims
+
+	a_flat = a.flatten()
+	b_flat = b.flatten()
+
+	# adds a new dimension to af, then spans along the new axis multiplying by bf
+	product = a_flat[:, np.newaxis] * b_flat 
 	
-	rwid =len(a[0])*len(b[0])
-	rheight = len(a)*len(b)
-
-	# use numpy arrays
-	tensa = [[0]*rwid for _ in range(rheight)]
-	tensb = [[0]*rwid for _ in range(rheight)]
-
-	product = [[0]*rwid for _ in range(rheight)]
-
-
-	#converts a to the scale of the tensor
-	for i in range(len(a)):
-		for j in range(len(a[0])):
-			fack = i * len(b)
-			facl = j * len(b[0])
-			for k in range(len(b)):
-				for l in range(len(b[0])):
-				
-					tensa[k+fack][l+facl] = a[i][j]
-
-
-	#converts b to the scale of the tensor
-	#print(len(b[0]),len(a[0]))
-	for k in range(len(b)):
-		for l in range(len(b[0])):
-			for i in range(len(a)):
-				for j in range(len(a[0])):
-					fack = i * len(b)
-					facl = j * len(b[0])
-			
-					tensb[k+fack][l+facl] = b[k][l]
-
-	#multiplies the scaled arrays to find the tensor product
-	for i in range(len(product)):
-		for j in range(len(product[i])):
-			product[i][j] = round(tensa[i][j]*tensb[i][j],6)
-
-	return product
+	# returns the tensor product in the calculated shape 
+	return product.reshape(result_dims)
