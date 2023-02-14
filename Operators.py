@@ -1,46 +1,49 @@
 # this file contains some of the matrix operators we are not allowed to use from packages
 # they have much room for improvement with numpy arrays
 
-def printMat(a):
-	for i in range(len(a)):
-		print(a[i])
-	print()
+# change name and can be optimised by just unpacking the list 
+def printMatrix(a):
+	print(*a) 
 
-
-def TransMatrix(a):
-	Ta = [[0]*len(a) for _ in range(len(a[0]))]
+# change name to something more clear 
+def transposeMatrix(a):
+	# change variable name 
+	a_T = [[0]*len(a) for _ in range(len(a[0]))]
 	for i in range(len(a)):
 		for j in range(len(a[i])):
-			Ta[j][i] = a[i][j]
-	return Ta
+			a_T[j][i] = a[i][j]
+	return a_T
 	# matrix T
 
 
-
+# change name on matrix 
 def matrixMulti(a,b):
-	m = len(a)
+	# dimension 
+	dimension = len(a)
 
-	if (len(a[0]) == len(b)):
-		n = len(b)
-		p = len(b[0])
-		product = [[0]*p for _ in range(m)]
-		for i in range(m):
-			for j in range(p):
-				c = 0
-				for k in range(n):
-					c += a[i][k]*b[k][j]
-				product[i][j] = round(c,6) ###### IMPORTANT ROUNDING WITHIN FUNCTION
-	else:
-		print("ERROR: Matrix sizes not aligned,  cannot multiply")
-		return []
+	# use assert for error control 
+	assert len(a[0]) == len(b), "Matrices of different dimensions cannot be multiplied"
+	n = len(b)
+	p = len(b[0])
+	product = [[0]*p for _ in range(m)]
+	for i in range(dimension):
+		for j in range(p):
+			c = 0
+			for k in range(n):
+				c += a[i][k]*b[k][j]
+			# could change rounding magnitude to a class member, so precision can be changed simply 
+			product[i][j] = round(c,6) ###### IMPORTANT ROUNDING WITHIN FUNCTION
 
 	return product
 
+# look to optimize and variable naming 
+# also add in asserts to check for incompatible matrices
 def tensorProd(a,b):
 	
 	rwid =len(a[0])*len(b[0])
 	rheight = len(a)*len(b)
 
+	# use numpy arrays
 	tensa = [[0]*rwid for _ in range(rheight)]
 	tensb = [[0]*rwid for _ in range(rheight)]
 
