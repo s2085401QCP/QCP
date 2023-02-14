@@ -1,40 +1,35 @@
 import numpy as np
-# this file contains some of the matrix operators we are not allowed to use from packages
-# they have much room for improvement with numpy arrays
 
-# change name and can be optimised by just unpacking the list 
-def printMatrix(a):
-	print(*a) 
-
-# change name to something more clear 
 def transposeMatrix(a):
-	# change variable name 
-	a_T = [[0]*len(a) for _ in range(len(a[0]))]
-	for i in range(len(a)):
-		for j in range(len(a[i])):
+	"""
+	Function to take the transpose of a matrix 
+	:param a: input matrix a, of size (m, n)
+	:return: Transpose of matrix a, of size (n, m)
+	"""
+	assert type(a) is np.ndarray, "Input matrix is not a numpy array"
+	a_T = np.zeros((a.shape[1], a.shape[0]))
+	for i in range(a.shape[0]):
+		for j in range(a.shape[1]):
 			a_T[j][i] = a[i][j]
 	return a_T
-	# matrix T
 
+def matrixMultiply(a, b): 
+	"""
+	Function to multiply two matrices together 
+	:param a: input matrix a of size (m, n)
+	:param b: input matrix b of size (p, q)
+	:return: product of the two matrices, of size (m, q) 
+	"""
+	assert a.shape[1] == b.shape[0], "Matrices are of incompatible dimensions for multiplication"
 
-# change name on matrix 
-def matrixMulti(a,b): 
-	dimension = len(a)
+	result = np.zeros((a.shape[0], b.shape[1])) 
 
-	# use assert for error control 
-	assert len(a[0]) == len(b), "Matrices of different dimensions cannot be multiplied"
-	n = len(b)
-	p = len(b[0])
-	product = [[0]*p for _ in range(m)]
-	for i in range(dimension):
-		for j in range(p):
-			c = 0
-			for k in range(n):
-				c += a[i][k]*b[k][j]
-			# could change rounding magnitude to a class member, so precision can be changed simply 
-			product[i][j] = round(c,6) ###### IMPORTANT ROUNDING WITHIN FUNCTION
+	for i in range(a.shape[0]):
+		for j in range(b.shape[1]):
+			for k in range(a.shape[1]):
+				result[i][j] += a[i][k] * b[k][j]
 
-	return product
+	return result
 
 def tensorProd(a, b):
 	"""
