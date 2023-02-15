@@ -64,6 +64,7 @@ def readBitstring(bitstring, coeffs):
 	print(len(bits), len(coeffs))
 
 	assert len(bits) == len(coeffs), "Dimensions of bitstring and coefficients array did not match"
+	assert len(coeffs[0]) == 2, "Coefficients are not for binary states"
 
 	values = np.zeros(len(bits))
 	for i in range(len(bits)): 
