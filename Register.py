@@ -10,10 +10,10 @@ class Register:
 		# it also has a working matrix register which is where we can load gates into if needed
 		self.qubits_ = qubits
 		self.n_qubits_ = len(qubits)
-		self.n_states_ = 2**self.qs
+		self.n_states_ = 2**self.n_qubits_
 
-		self.state_s_ = [[0] for _ in range(self.n_states)]
-		self.state_e_ = [[0] for _ in range(self.n_states)]
+		self.state_s_ = [[0] for _ in range(self.n_states_)]
+		self.state_e_ = [[0] for _ in range(self.n_states_)]
 
 		# TODO: check value
 		ident = np.eye(self.n_states_)
@@ -23,13 +23,19 @@ class Register:
 		
 
 	def updateS(self):
-		product = op.tensorProd(self.qubits_[0].coefs,self.qubits_[1].coefs)
+		"""
+		Function which updates the state_s_ vector
+		"""
+		product = op.tensorProd(self.qubits_[0].coefs_,self.qubits_[1].coefs_)
 
 		for i in range(2,self.n_qubits_):
-			product = op.tensorProd(product,self.qubits_[i].coefs)
+			product = op.tensorProd(product,self.qubits_[i].coefs_)
 		self.state_s_ = product
 
 	def updateE(self):
+		"""
+		Function which updates the state_e_ vector 
+		"""
 		prod = op.matrixMulti(self.reg_,self.state_s_)
 		self.state_e_= prod
 
