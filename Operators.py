@@ -62,7 +62,8 @@ def readBitstring(bitstring, coeffs):
 	bits = list(map(int, list(bitstring)))
 
 	print(len(bits), len(coeffs))
-
+    
+	assert type(bitstring) == str, "Bitstring input was not of type: String"
 	assert len(bits) == len(coeffs), "Dimensions of bitstring and coefficients array did not match"
 	assert len(coeffs[0]) == 2, "Coefficients are not for binary states"
 
