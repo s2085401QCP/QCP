@@ -50,8 +50,8 @@ def tensorProd(a, b):
 	a_flat = a.flatten()
 	b_flat = b.flatten()
 
-	# adds a new dimension to af, then spans along the new axis multiplying by bf
-	product = a_flat[:, np.newaxis] * b_flat 
+	# makes a_flat a column vector, then multiplies by the row vector b_flat to make a matrix of (len(a_flat), len(b_flat))
+	product = a_flat[:, np.newaxis] * b_flat
 	
 	# returns the tensor product in the calculated shape 
 	return product.reshape(result_dims)
