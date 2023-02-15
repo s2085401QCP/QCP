@@ -1,4 +1,5 @@
 import Operators as op
+import math
 
 # identity matrix, hadamard gate and cnot gate
 
@@ -51,13 +52,12 @@ def hadamard(register,qbool):
 			res1 = op.matrixMulti(H,qs[i].coefs)
 			a = qs[i].a
 			b = qs[i].b
-			ha = round((a+b)/(2**.5),6)
-			hb = round((a-b)/(2**.5),6)
+			ha = round((a+b)/(math.sqrt(2)),6)
+			hb = round((a-b)/(math.sqrt(2)),6)
 			res2 = [[ha],[hb]]
 			if res1 == res2:
 				register.qubits[i].upd(ha,hb)
 			else:
-				print("ERROR IN COMPARISON: HADAMARD GATE FAIL ON QUBIT- ",i)
-				print(res1,"COMPARED TO",res2)
+				raise Exception(f"ERROR IN COMPARISON: HADAMARD GATE FAIL ON QUBIT- {i} \n {res1} COMPARED TO {res2}")
 	return register
 

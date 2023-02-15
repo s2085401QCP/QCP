@@ -34,8 +34,8 @@ def matrixMultiply(a, b):
 def tensorProd(a, b):
 	"""
 	Compute the tensor product of two matrices 
-	:param a: input matrix a
-	:param b: input matrix b
+	:param a: input matrix a as an np.ndarray
+	:param b: input matrix b as an np.ndarray
 	:return: tensor product of the two matrices
 	"""
     
@@ -55,3 +55,4 @@ def tensorProd(a, b):
 	
 	# returns the tensor product in the calculated shape 
 	return product.reshape(result_dims)
+

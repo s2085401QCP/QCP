@@ -8,30 +8,30 @@ class Register:
 		# the register holds the qubit classes as an array
 		# it stores the start and end states as tensor products
 		# it also has a working matrix register which is where we can load gates into if needed
-		self.qubits = qubits
-		self.qs = len(qubits)
-		self.n = 2**self.qs
+		self.qubits_ = qubits
+		self.n_qubits_ = len(qubits)
+		self.n_states_ = 2**self.qs
 
-		self.stateS = [[0] for _ in range(self.n)]
-		self.stateE = [[0] for _ in range(self.n)]
+		self.state_s_ = [[0] for _ in range(self.n_states)]
+		self.state_e_ = [[0] for _ in range(self.n_states)]
 
-		ident = [[1,0],[0,1]]
-		self.reg = ident
-
-		for i in range(1,self.qs):
-			self.reg = op.tensorProd(self.reg,ident)
+		# TODO: check value
+		ident = np.eye(self.n_states_)
+		self.reg_ = ident
+		for i in range(1,self.n_qubits_):
+			self.reg_ = op.tensorProd(self.reg_,ident)
 		
 
 	def updateS(self):
-		product = op.tensorProd(self.qubits[0].coefs,self.qubits[1].coefs)
+		product = op.tensorProd(self.qubits_[0].coefs,self.qubits_[1].coefs)
 
-		for i in range(2,self.qs):
-			product = op.tensorProd(product,self.qubits[i].coefs)
-		self.stateS = product
+		for i in range(2,self.n_qubits_):
+			product = op.tensorProd(product,self.qubits_[i].coefs)
+		self.state_s_ = product
 
 	def updateE(self):
-		prod = op.matrixMulti(self.reg,self.stateS)
-		self.stateE = prod
+		prod = op.matrixMulti(self.reg_,self.state_s_)
+		self.state_e_= prod
 
 
 
