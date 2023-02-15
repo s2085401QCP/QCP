@@ -19,8 +19,6 @@ class Register:
 		self.I = np.eye(2)
 		self.C = [[1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0]]
 
-		self.H = [[2**-.5,2**-.5],[2**-.5,-2**-.5]]
-
 
 		# TODO: check value
 		ident = np.eye(self.n_states_)
@@ -48,11 +46,11 @@ class Register:
 
 	def CNOT(self, a, b):
 		# this initialises the start state as the tensor product of the two qubit coeficients
-		stateS = op.tensorProd(self.qubits_[a].coefs_,self.qubits_[b].coefs_)
+		stateS = op.tensorProd(self.qubits_[a].coefs_, self.qubits_[b].coefs_)
 	
 		# creates the end state as the multiplication of the CNOT matrix and the start state
 		# may need updated
-		stateE = op.matrixMulti(C,stateS)
+		stateE = op.matrixMulti(C, stateS)
 		self.state_e_ = stateE
 
 	def hadamard(self, qbool):
@@ -61,14 +59,14 @@ class Register:
 		for i in range(len(qbool)):
 			if qbool[i]:
 
-				res1 = op.matrixMulti(self.H,self.qubits_[i].coefs_)
+				res1 = op.matrixMulti(self.H, self.qubits_[i].coefs_)
 				a = self.qubits_[i].a_
 				b = self.qubits_[i].b_
 				ha = round((a+b)/(math.sqrt(2)),6)
 				hb = round((a-b)/(math.sqrt(2)),6)
 				res2 = [[ha],[hb]]
 				if res1 == res2:
-					self.qubits_[i].update(ha,hb)
+					self.qubits_[i].update(ha, hb)
 				else:
 					raise Exception(f"ERROR IN COMPARISON: HADAMARD GATE FAIL ON QUBIT-{i} \n {res1} COMPARED TO {res2}")
 

@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 def transposeMatrix(a):
 	"""
@@ -55,4 +56,21 @@ def tensorProd(a, b):
 	
 	# returns the tensor product in the calculated shape 
 	return product.reshape(result_dims)
+
+
+def readBitstring(bitstring, coeffs):
+	bits = list(map(int, list(bitstring)))
+
+	print(len(bits), len(coeffs))
+
+	assert len(bits) == len(coeffs), "Dimensions of bitstring and coefficients array did not match"
+
+	values = np.zeros(len(bits))
+	for i in range(len(bits)): 
+		values[i] = coeffs[i][bits[i]] 
+	return values
+
+
+
+
 
