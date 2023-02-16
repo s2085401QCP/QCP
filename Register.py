@@ -9,7 +9,7 @@ class Register:
 		# the register holds the qubit classes as an array
 		# it stores the start and end states as tensor products
 		# it also has a working matrix register which is where we can load gates into if needed
-		self.qubits_ = qubits
+		self.qubits_ = qubits 
 		self.n_qubits_ = len(qubits)
 		self.n_states_ = 2**self.n_qubits_
 
