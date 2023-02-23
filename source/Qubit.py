@@ -4,9 +4,7 @@ import Operators as op
 
 class Qubit:
 	def __init__(self,a,b):
-			self.a_ = a
-			self.b_ = b
-			self.state_ = np.array([self.a_, self.b_])
+			self.state_ = np.array([a, b])
 
 	# simple class to create a qubit, may be useful in future
 	def update(self,a,b):
@@ -19,7 +17,7 @@ class Qubit:
 		self.state_[1] = b
 		
 	def checknorm(self):
-		return (self.a_**2 + self.b_**2 == 1)
+		return (self.state_[0]**2 + self.state_[1]**2 == 1)
 
 	def normalize(self):
 		
@@ -43,6 +41,8 @@ class Qubit:
 	def hadamard(self):
 		H = 1/math.sqrt(2) * np.array([1, 1], [1, -1])
 		self.state_ = op.matrixMultiply(H, self.state_)
+
+	# TODO: define more gates which only affect one qubit, check if anything else is required???
 
 
 
