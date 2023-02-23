@@ -1,80 +1,87 @@
-# this file contains some of the matrix operators we are not allowed to use from packages
-# they have much room for improvement with numpy arrays
+import numpy as np
+import time
 
-# change name and can be optimised by just unpacking the list 
-def printMatrix(a):
-	print(*a) 
-
-# change name to something more clear 
 def transposeMatrix(a):
-	# change variable name 
-	a_T = [[0]*len(a) for _ in range(len(a[0]))]
-	for i in range(len(a)):
-		for j in range(len(a[i])):
+	"""
+	Function to take the transpose of a matrix 
+	:param a: input matrix a, of size (m, n)
+	:return: Transpose of matrix a, of size (n, m)
+	"""
+	assert type(a) is np.ndarray, "Input matrix is not a numpy array"
+	a_T = np.zeros((a.shape[1], a.shape[0]))
+	for i in range(a.shape[0]):
+		for j in range(a.shape[1]):
 			a_T[j][i] = a[i][j]
 	return a_T
-	# matrix T
 
+def matrixMultiply(a, b): 
+	"""
+	Function to multiply two matrices together 
+	:param a: input matrix a of size (m, n)
+	:param b: input matrix b of size (p, q)
+	:return: product of the two matrices, of size (m, q) 
+	"""
+	assert a.shape[1] == b.shape[0], "Matrices are of incompatible dimensions for multiplication"
 
-# change name on matrix 
-def matrixMulti(a,b):
-	# dimension 
-	dimension = len(a)
+	result = np.zeros((a.shape[0], b.shape[1])) 
 
-	# use assert for error control 
-	assert len(a[0]) == len(b), "Matrices of different dimensions cannot be multiplied"
-	n = len(b)
-	p = len(b[0])
-	product = [[0]*p for _ in range(m)]
-	for i in range(dimension):
-		for j in range(p):
-			c = 0
-			for k in range(n):
-				c += a[i][k]*b[k][j]
-			# could change rounding magnitude to a class member, so precision can be changed simply 
-			product[i][j] = round(c,6) ###### IMPORTANT ROUNDING WITHIN FUNCTION
+	for i in range(a.shape[0]):
+		for j in range(b.shape[1]):
+			for k in range(a.shape[1]):
+				result[i][j] += a[i][k] * b[k][j]
 
-	return product
+	return result
 
-# look to optimize and variable naming 
-# also add in asserts to check for incompatible matrices
-def tensorProd(a,b):
+def tensorProd(a, b):
+	"""
+	Compute the tensor product of two matrices 
+	:param a: input matrix a as an np.ndarray
+	:param b: input matrix b as an np.ndarray
+	:return: tensor product of the two matrices
+	"""
+    
+	assert type(a) is np.ndarray and type(b) is np.ndarray, "Input matrices were not numpy arrays" 
+
+	a_dims = a.shape
+	b_dims = b.shape
+
+	# calculates the dimensions of final product by concantinating the tuples
+	result_dims = a_dims + b_dims
+
+	a_flat = a.flatten()
+	b_flat = b.flatten()
+
+	# makes a_flat a column vector, then multiplies by the row vector b_flat to make a matrix of (len(a_flat), len(b_flat))
+	product = a_flat[:, np.newaxis] * b_flat
 	
-	rwid =len(a[0])*len(b[0])
-	rheight = len(a)*len(b)
+	# returns the tensor product in the calculated shape 
+	return product.reshape(result_dims)
 
-	# use numpy arrays
-	tensa = [[0]*rwid for _ in range(rheight)]
-	tensb = [[0]*rwid for _ in range(rheight)]
+def kroneckerProduct(a, b):
 
-	product = [[0]*rwid for _ in range(rheight)]
+	assert type(a) is np.ndarray and type(b) is np.ndarray, "Input matrices were not numpy arrays"
 
+	a_new = a.reshape(*a.shape, 1, 1)
+	b_new = b.reshape(1, 1, *b.shape)
 
-	#converts a to the scale of the tensor
-	for i in range(len(a)):
-		for j in range(len(a[0])):
-			fack = i * len(b)
-			facl = j * len(b[0])
-			for k in range(len(b)):
-				for l in range(len(b[0])):
-				
-					tensa[k+fack][l+facl] = a[i][j]
+	return (a_new * b_new).reshape(*(a.shape * b.shape))
 
 
-	#converts b to the scale of the tensor
-	#print(len(b[0]),len(a[0]))
-	for k in range(len(b)):
-		for l in range(len(b[0])):
-			for i in range(len(a)):
-				for j in range(len(a[0])):
-					fack = i * len(b)
-					facl = j * len(b[0])
-			
-					tensb[k+fack][l+facl] = b[k][l]
+def readBitstring(bitstring, coeffs):
+	bits = list(map(int, list(bitstring)))
 
-	#multiplies the scaled arrays to find the tensor product
-	for i in range(len(product)):
-		for j in range(len(product[i])):
-			product[i][j] = round(tensa[i][j]*tensb[i][j],6)
+	print(len(bits), len(coeffs))
+    
+	assert type(bitstring) == str, "Bitstring input was not of type: String"
+	assert len(bits) == len(coeffs), "Dimensions of bitstring and coefficients array did not match"
+	assert len(coeffs[0]) == 2, "Coefficients are not for binary states"
 
-	return product
+	values = np.zeros(len(bits))
+	for i in range(len(bits)): 
+		values[i] = coeffs[i][bits[i]] 
+	return values
+
+
+
+
+
