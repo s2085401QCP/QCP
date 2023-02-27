@@ -67,32 +67,40 @@ class QuantumRegister:
                 
                 self.state_[a] = state_a * gate[0][0] + state_b * gate[0][1]
                 self.state_[b] = state_a * gate[1][0] + state_b * gate[1][1]
+
+
+def toffoli(register, target, control):
+    assert len(control) == 2, "Number of Control qubits needs to be 2"
+    assert type(target) == int and type(control[0]) == int and type(control[1]) == int, "qubits need to be given as integers"
+    c0 = control[0]
+    c1 = control[1]
+    register.applyGate(gate = register.hadamard, target = target)
+    register.applyGate(gate = register.NOT, target = target, control = c0)
+    register.applyGate(gate = register.T_dagger, target = target)
+    register.applyGate(gate = register.NOT, target = target, control = c1)
+    register.applyGate(gate = register.T, target = target)
+    register.applyGate(gate = register.NOT, target = target, control = c0)
+    register.applyGate(gate = register.T_dagger, target = target)
+    register.applyGate(gate = register.NOT, target = target, control = c1)
+    register.applyGate(gate = register.T, target = target)
+    register.applyGate(gate = register.T, target = c0)
+    register.applyGate(gate = register.hadamard, target = target)
+    register.applyGate(gate = register.NOT, target = c0, control = c1)
+    register.applyGate(gate = register.T_dagger, target = c0)
+    register.applyGate(gate = register.T, target = c1)
+    register.applyGate(gate = register.NOT, target = c0, control = c1)
+    return register
+
+def contrZ(register):
+    print(register.state_)
+    register.applyGate(gate = register.hadamard, target = 0)
+    print(register.state_)
+    register.applyGate(gate = register.NOT, target = 0, control = 1)
+    print(register.state_)
+    register.applyGate(gate = register.hadamard, target = 0)
+    print(register.state_)
+    return register
                     
-
-
-
-
-
-
-
-        
-
-
-
-
-    #def applyHadamard(self, index):
-    #    self.qubits_[index].hadamard() 
-
-    # def applyCNOT(self, control, target):
-    #     cnot = np.array([1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0])
-    #     state = np.array(self.qubits_[control], self.qubits_[target])
-    #     state = op.matrixMultiply(cnot, state)
-    #     self.qubits_[target].update(state[2][0], state[3][0]) 
-
-
-    
-
-    # TODO: define gates which act on two or more qubits, also figure it out 
 
 
         
