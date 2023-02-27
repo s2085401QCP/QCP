@@ -69,37 +69,34 @@ class QuantumRegister:
                 self.state_[b] = state_a * gate[1][0] + state_b * gate[1][1]
 
 
-def toffoli(register, target, control):
-    assert len(control) == 2, "Number of Control qubits needs to be 2"
-    assert type(target) == int and type(control[0]) == int and type(control[1]) == int, "qubits need to be given as integers"
-    c0 = control[0]
-    c1 = control[1]
-    register.applyGate(gate = register.hadamard, target = target)
-    register.applyGate(gate = register.NOT, target = target, control = c0)
-    register.applyGate(gate = register.T_dagger, target = target)
-    register.applyGate(gate = register.NOT, target = target, control = c1)
-    register.applyGate(gate = register.T, target = target)
-    register.applyGate(gate = register.NOT, target = target, control = c0)
-    register.applyGate(gate = register.T_dagger, target = target)
-    register.applyGate(gate = register.NOT, target = target, control = c1)
-    register.applyGate(gate = register.T, target = target)
-    register.applyGate(gate = register.T, target = c0)
-    register.applyGate(gate = register.hadamard, target = target)
-    register.applyGate(gate = register.NOT, target = c0, control = c1)
-    register.applyGate(gate = register.T_dagger, target = c0)
-    register.applyGate(gate = register.T, target = c1)
-    register.applyGate(gate = register.NOT, target = c0, control = c1)
-    return register
+    def toffoli(self, target, control):
+        assert len(control) == 2, "Number of Control qubits needs to be 2"
+        assert type(target) == int and type(control[0]) == int and type(control[1]) == int, "qubits need to be given as integers"
+        c0 = control[0]
+        c1 = control[1]
+        self.applyGate(gate = self.hadamard, target = target)
+        self.applyGate(gate = self.NOT, target = target, control = c0)
+        self.applyGate(gate = self.T_dagger, target = target)
+        self.applyGate(gate = self.NOT, target = target, control = c1)
+        self.applyGate(gate = self.T, target = target)
+        self.applyGate(gate = self.NOT, target = target, control = c0)
+        self.applyGate(gate = self.T_dagger, target = target)
+        self.applyGate(gate = self.NOT, target = target, control = c1)
+        self.applyGate(gate = self.T, target = target)
+        self.applyGate(gate = self.T, target = c0)
+        self.applyGate(gate = self.hadamard, target = target)
+        self.applyGate(gate = self.NOT, target = c0, control = c1)
+        self.applyGate(gate = self.T_dagger, target = c0)
+        self.applyGate(gate = self.T, target = c1)
+        self.applyGate(gate = self.NOT, target = c0, control = c1)
 
-def contrZ(register):
-    print(register.state_)
-    register.applyGate(gate = register.hadamard, target = 0)
-    print(register.state_)
-    register.applyGate(gate = register.NOT, target = 0, control = 1)
-    print(register.state_)
-    register.applyGate(gate = register.hadamard, target = 0)
-    print(register.state_)
-    return register
+    def contrZ(self, target, control):
+        assert type(target) == int and type(control) == int, "Target or control is not of type int"
+        assert target < self.n_qubits_, f"Target Qubit is outwith range of Qubits \nnumber of qubits was initialised as {self.n_qubits_}, however target qubit was {target}"
+        assert control < self.n_qubits_, f"Control Qubit is outwith range of Qubits \nnumber of qubits was initialised as {self.n_qubits_}, however control qubit was {control}"
+        self.applyGate(gate = self.hadamard, target = target)
+        self.applyGate(gate = self.NOT, target = 0, control = control)
+        self.applyGate(gate = self.hadamard, target = target)
                     
 
 
