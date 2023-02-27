@@ -4,28 +4,6 @@ import numpy as np
 import math
 
 class QuantumRegister:
-    def __init__(self, n_qubits):
-        self.n_qubits_ = n_qubits
-        self.n_states_ = 2**self.n_qubits_
-        self.state_ = np.zeros(self.n_states_, dtype = complex)
-        self.state_[0] = 1 
-        self.hadamard = np.array(([1, 1], [1, -1])) / math.sqrt(2)
-        self.NOT = np.array(([0, 1], [1, 0])) 
-        self.T = np.array(([1, 0], [0, complex(np.cos(math.pi/4), np.sin(math.pi/4))]))
-        self.T_dagger = np.array(([1, 0], [0, complex(np.cos(math.pi/4), -np.sin(math.pi/4))]))
-
-    def setEqualSuperposition(self):
-        self.state_ = np.ones(self.n_states_, dtype = complex) / math.sqrt(self.n_states_)
-    
-    def measureState(self):
-        prob = np.abs((self.state_))**2
-        index = np.random.choice(self.n_states_, p=prob)
-        self.state_ = np.zeros(self.n_states_, dtype = complex)
-        self.state_[index] = 1.0
-        return index
-
-
-    class QuantumRegister:
     def __init__(self, n_qubits, state = 0):
         self.n_qubits_ = n_qubits
         self.n_states_ = 2**self.n_qubits_
@@ -70,7 +48,7 @@ class QuantumRegister:
 
 
     def toffoli(self, target, control):
-        assert len(control) == 2, "Number of Control qubits needs to be 2"
+        assert type(control) == tuple and len(control) == 2, "Number of Control qubits needs to be a tuple of length 2"
         assert type(target) == int and type(control[0]) == int and type(control[1]) == int, "qubits need to be given as integers"
         c0 = control[0]
         c1 = control[1]
