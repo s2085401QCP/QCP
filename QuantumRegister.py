@@ -36,15 +36,22 @@ class QuantumRegister:
         """
         self.state_ = np.ones(self.n_states_, dtype = complex) / math.sqrt(self.n_states_)
     
-    def measureState(self):
+    def measureState(self, return_uncollapsed_state = False):
         """
         Function which collapses the wavefunction, and so the register goes into a singular state
         """
         prob = np.abs((self.state_))**2
         index = np.random.choice(self.n_states_, p=prob)
-        self.state_ = np.zeros(self.n_states_, dtype = complex)
-        self.state_[index] = 1.0
-        return index
+        if !return_uncollapsed_state:
+            self.state_ = np.zeros(self.n_states_, dtype = complex)
+            self.state_[index] = 1.0
+            return index
+        else:
+            state = self.state_
+            self.state_ = np.zeros(self.n_states_, dtype = complex)
+            self.state_[index] = 1.0
+            return index, state
+
 
 
     def applyGate(self, gate, target, control = None):
