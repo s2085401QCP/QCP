@@ -5,12 +5,12 @@ import QuantumRegister as qr
 
 class Grovers:
 
-    def __init__(self, oracle, register):
-        self.wanted_state_ = wanted_state
+    def __init__(self, oracle, list):
         self.oracle = oracle
-        self.register_ = register
-        self.n_qubits_ = self.register.n_qubits_
-        self.n_states_ = self.register.n_states_ 
+        self.n_qubits_ = math.ceil(math.log2(len(list))) 
+        self.register = QuantumRegister(self.n_qubits_)
+        self.n_states_ = self.register.n_states_
+         
 
     def applyOracle(self):
         for i in range(self.n_states_):
