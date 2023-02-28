@@ -1,46 +1,33 @@
 import numpy as np 
 import math 
 import Operators as op
-import Register as register 
-from Qubit import Qubit
+import QuantumRegister as qr
 
 class Grovers:
 
-    def __init__(self, wanted_state, register):
-        self.qubits_ = register.qubits
-        self.n_qubits_ = register.n_qubits_
-        self.n_states_ = register.n_states_
-        self.register = register 
-        self.wanted_state = wanted_state
+    def __init__(self, oracle, register):
+        self.wanted_state_ = wanted_state
+        self.oracle = oracle
+        self.register_ = register
+        self.n_qubits_ = self.register.n_qubits_
+        self.n_states_ = self.register.n_states_ 
 
-        self.iterations = (np.pi / 4) * math.sqrt((2**self.n_states_)/len(wanted_state))
+    def applyOracle(self):
+        for i in range(self.n_states_):
+            self.register.state_[i] *= ((-1) ** self.oracle(i))
+        
 
-        self.state = 1/(self.n_states_) * np.ones(self.n_states_)
+    def groversOneIteration(self):
+        self.applyOracle()
+        mu = (1/self.n_states_) * np.sum(self.register.state_)
+        for i in range(register.n_states_):
+            self.register.state_[i] = self.register.state_[i] - 2*mu
 
-        self.previous_state = self.state
+    def findIndex(self):
+        index = self.register.measureState()
+        return index
 
-        self.oracle = np.eye(self.n_qubits_)
-
-    def oracle(self):
-        for state in self.wanted_state: 
-            self.oracle[state][state] = -1
-
-    def oneStepGrover(self):
-        op.matrixMultiply(self.oracle, self.state)
-        mean_average = np.mean(self.state)
-        self.previous_state = self.state
-        self.state = 2*mean_average - self.state
-        pass 
-
-    def groversAlgorithm(self):
-        for _ in range(self.iterations):
-            self.oneStepGrover() 
-        return self.state
-
-    def getFinalState(self):
-        probability = np.abs(self.state)**2
-        measurement = np.random.choice(self.n_states_, p = probability)
-        return measurement
+    
 
 
 
