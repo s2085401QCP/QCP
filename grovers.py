@@ -1,6 +1,5 @@
 import numpy as np 
 import math 
-import Operators as op
 import QuantumRegister as qr
 
 class Grovers:
