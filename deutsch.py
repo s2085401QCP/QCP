@@ -1,6 +1,4 @@
 import QuantumRegister
-import numpy as np 
-import math 
 
 class Deutsch:
     """
