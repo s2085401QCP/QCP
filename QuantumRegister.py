@@ -39,6 +39,9 @@ class QuantumRegister:
     def measureState(self, return_uncollapsed_state = False):
         """
         Function which collapses the wavefunction, and so the register goes into a singular state
+        :type return_uncollapsed_state: Bool
+        :param return_uncollapsed_state: If true, function returns the uncollapsed state
+        :return: index or index, state where index is the integer value of the state, and state is the uncollapsed state vector
         """
         prob = np.abs((self.state_))**2
         index = np.random.choice(self.n_states_, p=prob)
