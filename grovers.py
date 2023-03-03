@@ -1,6 +1,6 @@
 import numpy as np 
 import math 
-import QuantumRegister as qr
+from QuantumRegister import *
 
 class Grovers:
     """

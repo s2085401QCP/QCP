@@ -45,7 +45,7 @@ class QuantumRegister:
         """
         prob = np.abs((self.state_))**2
         index = np.random.choice(self.n_states_, p=prob)
-        if !return_uncollapsed_state:
+        if  not (return_uncollapsed_state):
             self.state_ = np.zeros(self.n_states_, dtype = complex)
             self.state_[index] = 1.0
             return index

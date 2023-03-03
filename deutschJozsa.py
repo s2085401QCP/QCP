@@ -1,4 +1,4 @@
-import QuantumRegister
+from QuantumRegister import *
 
 class DeutschJozsa:
 
@@ -11,11 +11,11 @@ class DeutschJozsa:
 
     """
 
-    def __init__(oracle, n_qubits):
+    def __init__(self, oracle, n_qubits):
         self.oracle = oracle
         self.n_qubits_ = n_qubits
         self.n_states_ = 2 ** n_qubits
-        self.register = QuantumRegister(self.n_qubits_)
+        self.register = QuantumRegister(n_qubits)
 
     def applyOracle(self):
         """
@@ -36,7 +36,7 @@ class DeutschJozsa:
             self.register.applyGate(gate = self.register.hadamard, target = i)
         self.applyOracle()
         for i in range(self.n_qubits_ - 1):
-            self.register.applyGate(gate = self.hadamard, target = i)
+            self.register.applyGate(gate = self.register.hadamard, target = i)
         state = self.register.measureState()
         if state & 1 == 1:
             print("Oracle is Balanced")

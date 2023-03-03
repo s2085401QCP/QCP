@@ -1,4 +1,4 @@
-import QuantumRegister
+from QuantumRegister import *
 
 class Deutsch:
     """
@@ -8,7 +8,7 @@ class Deutsch:
         oracle: A function which is either balanced or constant, which returns 1 or 0
     """
 
-    def __init__(oracle):
+    def __init__(self, oracle):
         self.register = QuantumRegister(2, state = 0)
         self.n_qubits_ = 2
         self.n_states_ = 2 ** self.n_qubits_
