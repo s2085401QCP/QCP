@@ -15,12 +15,10 @@ class Deutsch:
         self.oracle = oracle
 
 
-    def deutschAlgorithm(self, return_isBalanced = False):
+    def deutschAlgorithm(self):
         """
         Function which implements Deutsch's Algorithm, optional return of boolean
-        :type return_isBalanced: Bool  
-        :param return_isBalanced: If True the function returns a boolean value
-        :return: if return_isBalanced = True, returns True is oracle is balanced, or False if constant
+        :return: True is oracle is balanced, or False if constant
         """
         for i in range(self.n_qubits_):
             self.register.applyGate(gate = self.register.hadamard, target = i)
@@ -29,12 +27,8 @@ class Deutsch:
         self.register.applyGate(gate = self.register.hadamard, target = 0)
         state = reg.measureState()
         if state & 1 == 1:
-            print("Oracle is Balanced")
-            if return_bool:
-                return True
+            return True
         else:
-            print("Oracle is Constant")
-            if return_bool:
-                return False
+            return False
 
 
