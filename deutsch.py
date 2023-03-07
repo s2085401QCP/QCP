@@ -8,8 +8,9 @@ class Deutsch:
         oracle: A function which is either balanced or constant, which returns 1 or 0
     """
 
-    def __init__(self, oracle):
-        self.register = QuantumRegister(2, state = 0)
+    def __init__(self, oracle, register):
+        assert register.n_qubits_ == 2
+        self.register = register
         self.n_qubits_ = 2
         self.n_states_ = 2 ** self.n_qubits_
         self.oracle = oracle
@@ -18,7 +19,7 @@ class Deutsch:
     def deutschAlgorithm(self):
         """
         Function which implements Deutsch's Algorithm, optional return of boolean
-        :return: True is oracle is balanced, or False if constant
+        :return: True if oracle is balanced, or False if constant
         """
         for i in range(self.n_qubits_):
             self.register.applyGate(gate = self.register.hadamard, target = i)
