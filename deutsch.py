@@ -9,6 +9,8 @@ class Deutsch:
     """
 
     def __init__(self, oracle):
+        assert hasattr(oracle, '__call__')
+        
         self.register = QuantumRegister(2, state = 0)
         self.n_qubits_ = 2
         self.n_states_ = 2 ** self.n_qubits_
@@ -25,7 +27,7 @@ class Deutsch:
         for i in range(self.n_states_):
             self.register.state_[i] *= (-1) ** self.oracle(i)
         self.register.applyGate(gate = self.register.hadamard, target = 0)
-        state = reg.measureState()
+        state = self.register.measureState()
         if state & 1 == 1:
             return True
         else:

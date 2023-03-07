@@ -21,6 +21,9 @@ class QuantumRegister:
         T dagger
     """
     def __init__(self, n_qubits, state = 0):
+
+        assert isinstance(n_qubits,int)
+        assert isinstance(state,int)
         """
         Initialises the QuantumRegister class with: 
             n_states = 2 ** n_qubits

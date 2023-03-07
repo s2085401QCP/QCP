@@ -12,6 +12,9 @@ class DeutschJozsa:
     """
 
     def __init__(self, oracle, n_qubits):
+        assert hasattr(oracle, '__call__')
+        assert isinstance(n_qubits,int)
+        
         self.oracle = oracle
         self.n_qubits_ = n_qubits
         self.n_states_ = 2 ** n_qubits
