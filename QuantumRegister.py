@@ -10,6 +10,15 @@ class QuantumRegister:
     Class Attributes: 
         n_qubits = number of qubits to initialise class with
         state = which state the class is initialised into, as an integer, set to 0
+
+    Stored Gates are: 
+        hadamard
+        pauli X
+        pauli Y
+        pauli Z
+        Phase 
+        T
+        T dagger
     """
     def __init__(self, n_qubits, state = 0):
         """
@@ -23,8 +32,14 @@ class QuantumRegister:
         self.state_[state] = 1 
         # 2x2 matrix which applies a hadamard gate
         self.hadamard = np.array(([1, 1], [1, -1])) / math.sqrt(2)
-        # 2x2 matrix which applies a NOT gate
-        self.NOT = np.array(([0, 1], [1, 0])) 
+        # 2x2 matrix which applies a pauli X (NOT) gate
+        self.pauli_x = np.array(([0, 1], [1, 0])) 
+        # 2x2 matrix which applies a pauli Y gate
+        self.pauli_y = np.array(([0, complex(0, -1)], [complex(0, 1), 0]))
+        # 2x2 matrix which applies a pauli Z gate
+        self.pauli_z = np.array(([1, 0], [0, -1]))
+        # 2x2 matrix which applies a phase gate
+        self.phase = np.array(([1, 0], [0, complex(0, 1)]))
         # 2x2 matrix which applies a T gate
         self.T = np.array(([1, 0], [0, complex(np.cos(math.pi/4), np.sin(math.pi/4))]))
         # 2x2 matrix which applies a T dagger gate
@@ -39,10 +54,13 @@ class QuantumRegister:
     def measureState(self, return_uncollapsed_state = False):
         """
         Function which collapses the wavefunction, and so the register goes into a singular state
+        :type return_uncollapsed_state: Bool
+        :param return_uncollapsed_state: If true, function returns the uncollapsed state
+        :return: index or index, state where index is the integer value of the state, and state is the uncollapsed state vector
         """
         prob = np.abs((self.state_))**2
         index = np.random.choice(self.n_states_, p=prob)
-        if !return_uncollapsed_state:
+        if  not (return_uncollapsed_state):
             self.state_ = np.zeros(self.n_states_, dtype = complex)
             self.state_[index] = 1.0
             return index
@@ -71,16 +89,26 @@ class QuantumRegister:
             assert control != target, "Control qubit cannot equal target qubit"
 
         for i in range(self.n_states_):
+
+            # checks if the target qubit is 0
             if (i >> target) & 1 == 0:
+
+                # checks if the control qubit is 0, and if so skips this iteration
                 if control != None:
                     if (i >> control) & 1 == 0:
                         continue
+                
+                # a is the integer representation of the state where the target qubit is 0
                 a = i
+
+                # b is the integer representation of the a where the target qubit has been flipped
                 b = i ^ (1 << target)
 
+                # the probability of finding the register in either of these states
                 state_a = self.state_[a] 
-                state_b = self.state_[b]  
-                
+                state_b = self.state_[b] 
+
+                # updates the probabilities of each state according to the 2x2 input matrix
                 self.state_[a] = state_a * gate[0][0] + state_b * gate[0][1]
                 self.state_[b] = state_a * gate[1][0] + state_b * gate[1][1]
 
@@ -98,20 +126,20 @@ class QuantumRegister:
         c0 = control[0]
         c1 = control[1]
         self.applyGate(gate = self.hadamard, target = target)
-        self.applyGate(gate = self.NOT, target = target, control = c0)
+        self.applyGate(gate = self.pauli_x, target = target, control = c0)
         self.applyGate(gate = self.T_dagger, target = target)
-        self.applyGate(gate = self.NOT, target = target, control = c1)
+        self.applyGate(gate = self.pauli_x, target = target, control = c1)
         self.applyGate(gate = self.T, target = target)
-        self.applyGate(gate = self.NOT, target = target, control = c0)
+        self.applyGate(gate = self.pauli_x, target = target, control = c0)
         self.applyGate(gate = self.T_dagger, target = target)
-        self.applyGate(gate = self.NOT, target = target, control = c1)
+        self.applyGate(gate = self.pauli_x, target = target, control = c1)
         self.applyGate(gate = self.T, target = target)
         self.applyGate(gate = self.T, target = c0)
         self.applyGate(gate = self.hadamard, target = target)
-        self.applyGate(gate = self.NOT, target = c0, control = c1)
+        self.applyGate(gate = self.pauli_x, target = c0, control = c1)
         self.applyGate(gate = self.T_dagger, target = c0)
         self.applyGate(gate = self.T, target = c1)
-        self.applyGate(gate = self.NOT, target = c0, control = c1)
+        self.applyGate(gate = self.pauli_x, target = c0, control = c1)
 
     def contrZ(self, target, control):
         """
@@ -125,7 +153,7 @@ class QuantumRegister:
         assert target < self.n_qubits_, f"Target Qubit is outwith range of Qubits \nnumber of qubits was initialised as {self.n_qubits_}, however target qubit was {target}"
         assert control < self.n_qubits_, f"Control Qubit is outwith range of Qubits \nnumber of qubits was initialised as {self.n_qubits_}, however control qubit was {control}"
         self.applyGate(gate = self.hadamard, target = target)
-        self.applyGate(gate = self.NOT, target = 0, control = control)
+        self.applyGate(gate = self.pauli_x, target = 0, control = control)
         self.applyGate(gate = self.hadamard, target = target)
                     
 
