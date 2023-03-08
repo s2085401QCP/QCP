@@ -31,6 +31,8 @@ class QuantumRegister:
         """
         self.n_qubits_ = n_qubits
         self.n_states_ = 2**self.n_qubits_
+        # stores the state as a list of probabilities, where the index of the list is the integer representation of the binary string 
+        # representing the vector
         self.state_ = np.zeros(self.n_states_, dtype = complex)
         self.state_[state] = 1 
         # 2x2 matrix which applies a hadamard gate
@@ -104,7 +106,7 @@ class QuantumRegister:
                 # a is the integer representation of the state where the target qubit is 0
                 a = i
 
-                # b is the integer representation of the a where the target qubit has been flipped
+                # b is the integer representation of a where the target qubit has been flipped
                 b = i ^ (1 << target)
 
                 # the probability of finding the register in either of these states
