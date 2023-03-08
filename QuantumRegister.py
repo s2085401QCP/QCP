@@ -83,9 +83,9 @@ class QuantumRegister:
         assert isinstance(state, int) or isinstance(state, str), "state must be an integer or a bitstring"
         if isinstance(state, str):
             assert state.count("0") + state.count("1") == len(state), "input state must be a bitstring"
-            assert len(state) == self.n_qubits_, "Bitstring input is greater than the number of states of the register"
+            assert int(state, 2) >= self.n_qubits_, "Bitstring input is greater than the number of states of the register"
             state = int(state, 2)
-        return self.state_[int(state)] 
+        return self.state_[state] 
 
     def measureStateNTimes(self, n):
         """
