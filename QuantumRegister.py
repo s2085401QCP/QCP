@@ -51,7 +51,8 @@ class QuantumRegister:
         """
         Function which makes the register equally likely to be found in any state
         """
-        self.state_ = np.ones(self.n_states_, dtype = complex) / math.sqrt(self.n_states_)
+        for i in range(self.n_qubits_):
+            self.applyGate(gate = self.hadamard, target = i) 
     
     def measureState(self, return_uncollapsed_state = False):
         """
@@ -71,6 +72,16 @@ class QuantumRegister:
             self.state_ = np.zeros(self.n_states_, dtype = complex)
             self.state_[index] = 1.0
             return index, state
+
+    def getStateProbability(self, state):
+        """
+        Function which gets the probability that the register is in a specified state
+        :type state: int or bitstring
+        :param state: wanted state of the register
+        :return: Probability that the register is in the specified state
+        """
+        assert isinstance(state, int) or state.count("0") + state.count("1") == len(state), "state must be an integer or a bitstring"
+        return self.state_[int(state)] 
 
 
 
