@@ -86,6 +86,22 @@ class QuantumRegister:
             assert int(state) == self.n_states_, "Bitstring input is greater than the number of states of the register"
         return self.state_[int(state)] 
 
+    def measureStateNTimes(self, n):
+        """
+        Function that measures the register n times, and counts how many times each state is collapsed to
+        :type n: int
+        :param n: number of times to measure the registers state
+        :return: a list of length n_states_, with each value showing how many times the register collapsed into that state
+        """
+        assert isinstance(n, int), "n must be an integer"
+        
+        counts = np.zeros(self.n_states_)
+        for _ in range(n):
+            index, state = self.measureState(return_uncollapsed_state = True)
+            counts[index] += 1
+            self.state_ = state
+        return counts
+
 
 
     def applyGate(self, gate, target, control = None):
