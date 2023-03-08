@@ -80,7 +80,10 @@ class QuantumRegister:
         :param state: wanted state of the register
         :return: Probability that the register is in the specified state
         """
-        assert isinstance(state, int) or state.count("0") + state.count("1") == len(state), "state must be an integer or a bitstring"
+        assert isinstance(state, int) or isinstance(state, str), "state must be an integer or a bitstring"
+        if isinstance(state, str):
+            assert state.count("0") + state.count("1") == len(state), "input state must be a bitstring"
+            assert int(state) == self.n_states_, "Bitstring input is greater than the number of states of the register"
         return self.state_[int(state)] 
 
 
