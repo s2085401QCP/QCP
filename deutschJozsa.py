@@ -21,7 +21,7 @@ class DeutschJozsa:
         """
         Function which applies the oracle onto the state vector
         """
-        self.register = self.oracle(self.register)
+        self.register.state_ = self.oracle(self.register)
 
 
     def deutschJozsaAlgorithm(self):

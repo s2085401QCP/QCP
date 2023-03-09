@@ -14,7 +14,12 @@ class Deutsch:
         self.n_qubits_ = 2
         self.n_states_ = 2 ** self.n_qubits_
         self.oracle = oracle
-
+    
+    def applyOracle(self):
+        """
+        Function which applies the oracle onto the state vector
+        """
+        self.register.state_ = self.oracle(self.register)
 
     def deutschAlgorithm(self):
         """
@@ -23,8 +28,7 @@ class Deutsch:
         """
         for i in range(self.n_qubits_):
             self.register.applyGate(gate = self.register.hadamard, target = i)
-        for i in range(self.n_states_):
-            self.register.state_[i] *= (-1) ** self.oracle(i)
+        self.applyOracle()
         self.register.applyGate(gate = self.register.hadamard, target = 0)
         state = self.register.measureState()
         if state & 1 == 1:

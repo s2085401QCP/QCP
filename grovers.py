@@ -27,7 +27,7 @@ class Grovers:
          
 
     def applyOracle(self):
-        self.register = self.oracle(self.register)
+        self.register.state_ = self.oracle(self.register)
         
 
     def flipByMean(self):
@@ -39,7 +39,7 @@ class Grovers:
         self.register.setEqualSuperposition()
         for i in range(self.iterations):
             self.applyOracle()
-            self.register.flipByMean()
+            self.flipByMean()
         
 
     def findIndex(self):

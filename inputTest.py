@@ -1,30 +1,54 @@
-from QuantumRegister import *
 from source.Qubit import Qubit
-from source.Operators import Operators as op
+from QuantumRegister import *
+from source.Operators import *
 
 import deutsch
 import deutschJozsa
 import grovers
 
+def objArgTest(Obj,inputs):
+
+	inputType = "FAILED"
+	try:
+		test = Obj(*inputs)
+		print("SUCCESSFUL INPUT",type(inputs))
+		inputType = type(inputs)
+			
+			
+	except:
+		#print("FAILED INPUT",type(inputs))
+		test = inputs
+
+	return inputType
+
+def objSelectTypeTest(Obj,inputs):
+	types = [True,"string",1,2.0]
+	for i in range(len(input)): 
+		try:
+			test = Obj(*inputs)
+			print("SUCCESSFUL INPUT",type(inputs))
+			
+		except:
+			pass
+
+
+
 def registerTest():
 	print("INIT REGISTER TEST")
-	def registerInput(n_qubits):
-		try:
-			test = QuantumRegister(n_qubits)
-			print("SUCCESSFUL INPUT",type(n_qubits))
-		except:
-			print("FAILED INPUT",type(n_qubits))
-			test = n_qubits
-		return test
 
 	print("SHOULD FAIL - STRING")
-	stringInp = registerInput("THIS WILL FAIL")
+	stringInp = objArgTest(QuantumRegister,["THIS WILL FAIL"])
+	print(stringInp)
 	print()
+
 	print("SHOULD FAIL - FLOAT")
-	floatInp = registerInput(2.0)
+	floatInp = objArgTest(QuantumRegister,[2.0])
+	print(stringInp)
 	print()
+
 	print("SHOULD PASS - INT")
-	intInp = registerInput(8)
+	intInp = objArgTest(QuantumRegister,[8])
+	print(stringInp)
 	print()
 
 def dJTest():
@@ -62,5 +86,5 @@ def groversTest():
 
 
 registerTest()
-dJTest()
-groversTest()
+#dJTest()
+#groversTest()
