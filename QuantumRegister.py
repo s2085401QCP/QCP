@@ -54,7 +54,8 @@ class QuantumRegister:
         """
         Function which makes the register equally likely to be found in any state
         """
-        self.state_ = np.ones(self.n_states_, dtype = complex) / math.sqrt(self.n_states_)
+        for i in range(self.n_qubits_):
+            self.applyGate(gate = self.hadamard, target = i) 
     
     def measureState(self, return_uncollapsed_state = False):
         """
@@ -74,6 +75,36 @@ class QuantumRegister:
             self.state_ = np.zeros(self.n_states_, dtype = complex)
             self.state_[index] = 1.0
             return index, state
+
+    def getStateProbability(self, state):
+        """
+        Function which gets the probability that the register is in a specified state
+        :type state: int or bitstring
+        :param state: wanted state of the register
+        :return: Probability that the register is in the specified state
+        """
+        assert isinstance(state, int) or isinstance(state, str), "state must be an integer or a bitstring"
+        if isinstance(state, str):
+            assert state.count("0") + state.count("1") == len(state), "input state must be a bitstring"
+            assert int(state, 2) >= self.n_qubits_, "Bitstring input is greater than the number of states of the register"
+            state = int(state, 2)
+        return self.state_[state] 
+
+    def measureStateNTimes(self, n):
+        """
+        Function that measures the register n times, and counts how many times each state is collapsed to
+        :type n: int
+        :param n: number of times to measure the registers state
+        :return: a list of length n_states_, with each value showing how many times the register collapsed into that state
+        """
+        assert isinstance(n, int), "n must be an integer"
+        
+        counts = np.zeros(self.n_states_)
+        for _ in range(n):
+            index, state = self.measureState(return_uncollapsed_state = True)
+            counts[index] += 1
+            self.state_ = state
+        return counts
 
 
 
