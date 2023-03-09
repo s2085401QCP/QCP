@@ -7,17 +7,17 @@ class QuantumRegister:
     Class which simulates a Quantum Register
 
     Class Attributes: 
-        n_qubits = number of qubits to initialise class with
-        state = which state the class is initialised into, as an integer, set to 0
+        n_qubits = number of qubits to initialise class with;
+        state = which state the class is initialised into, as an integer, set to 0;
 
     Stored Gates are: 
-        hadamard
-        pauli X
-        pauli Y
-        pauli Z
-        Phase 
-        T
-        T dagger
+        hadamard;
+        pauli_x;
+        pauli_y;
+        pauli_z;
+        phase;
+        T;
+        T_dagger;
     """
     def __init__(self, n_qubits, state = 0):
 
@@ -63,7 +63,7 @@ class QuantumRegister:
         Function which collapses the wavefunction, and so the register goes into a singular state
         :type return_uncollapsed_state: Bool
         :param return_uncollapsed_state: If true, function returns the uncollapsed state
-        :return: index or index, state where index is the integer value of the state, and state is the uncollapsed state vector
+        :return: index or (index, state) where index is the integer value of the state, and state is the uncollapsed state vector
         """
         prob = np.abs((self.state_))**2
         index = np.random.choice(self.n_states_, p=prob)
