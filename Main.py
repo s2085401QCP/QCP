@@ -1,10 +1,10 @@
-from QuantumRegister import *
-from source.Qubit import Qubit
-from source.Operators import *
+from register.QuantumRegister import *
+from Qubit import Qubit
+from register.Operators import *
 
-from deutsch import *
-from deutschJozsa import *
-from grovers import *
+from register.deutsch import *
+from register.deutschJozsa import *
+from register.grovers import *
 
 def balanced(register):
 	def oracle(a):

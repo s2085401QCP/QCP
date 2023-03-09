@@ -1,6 +1,6 @@
 import numpy as np 
 import math 
-from QuantumRegister import *
+from register.QuantumRegister import *
 
 class Grovers:
     """

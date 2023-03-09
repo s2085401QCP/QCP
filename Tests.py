@@ -1,7 +1,7 @@
 import numpy as np
 from Register import Register
 from Qubit import Qubit
-import Operators as op
+import register.Operators as op
 import Gates as G
 
 # tests to ensure program is working as intended

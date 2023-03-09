@@ -1,4 +1,4 @@
-import Operators as op
+import register.Operators as op
 import math
 
 # identity matrix, hadamard gate and cnot gate

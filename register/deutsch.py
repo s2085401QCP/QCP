@@ -1,4 +1,4 @@
-from QuantumRegister import *
+from register.QuantumRegister import *
 
 class Deutsch:
     """

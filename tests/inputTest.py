@@ -1,10 +1,10 @@
-from source.Qubit import Qubit
-from QuantumRegister import *
-from source.Operators import *
+from Qubit import Qubit
+from register.QuantumRegister import *
+from register.Operators import *
 
-import deutsch
-import deutschJozsa
-import grovers
+import register.deutsch as deutsch
+import register.deutschJozsa as deutschJozsa
+import register.grovers as grovers
 
 def objArgTest(Obj,inputs):
 

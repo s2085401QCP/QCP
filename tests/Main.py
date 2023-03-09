@@ -1,6 +1,6 @@
 from Register import Register
 from Qubit import Qubit
-import Operators as op
+import register.Operators as op
 import Tests
 
 # this main runs through a few of the materials covered in the notes
