@@ -118,11 +118,11 @@ class QuantumRegister:
         :param control: index of the control qubit, if not None
         """
         assert gate.shape == (2, 2), f"Gate Matrix has wrong dimensions, please input a 2x2 array \n input array was of shape {gate.shape}"
+        assert np.allclose(np.eye(len(gate)), gate.dot(gate.T.conj())), "Gate matrix must be Unitary"
         assert type(target) == int and target < self.n_qubits_, f"Target Qubit is outwith range of Qubits \nnumber of qubits was initialised as {self.n_qubits_}, however target qubit was {target}"
         if control != None:
             assert type(control) == int and control < self.n_qubits_, f"Control Qubit is out of range of Qubits \nnumber of qubits was initialised as {self.n_qubits_},  however control qubit was {control}"
             assert control != target, "Control qubit cannot equal target qubit"
-
         for i in range(self.n_states_):
 
             # checks if the target qubit is 0
