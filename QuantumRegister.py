@@ -1,5 +1,5 @@
-from Qubit import Qubit
-import Operators as op
+from source.Qubit import Qubit
+from source.Operators import *
 import numpy as np
 import math
 
@@ -21,6 +21,9 @@ class QuantumRegister:
         T dagger
     """
     def __init__(self, n_qubits, state = 0):
+
+        assert isinstance(n_qubits,int)
+        assert isinstance(state,int)
         """
         Initialises the QuantumRegister class with: 
             n_states = 2 ** n_qubits

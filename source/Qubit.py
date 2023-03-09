@@ -1,6 +1,6 @@
 import numpy as np
 import math
-import Operators as op
+from source.Operators import *
 
 class Qubit:
 	def __init__(self,a,b):
