@@ -53,6 +53,8 @@ class QuantumRegister:
         """
         Function which makes the register equally likely to be found in any state
         """
+        self.state_ = np.zeros(self.n_states_)
+        self.state_[0] = 1
         for i in range(self.n_qubits_):
             self.applyGate(gate = self.hadamard, target = i) 
     
@@ -87,7 +89,8 @@ class QuantumRegister:
             assert state.count("0") + state.count("1") == len(state), "input state must be a bitstring"
             assert int(state, 2) >= self.n_qubits_, "Bitstring input is greater than the number of states of the register"
             state = int(state, 2)
-        return self.state_[state] 
+        prob = abs(self.state_[state])**2
+        return prob 
 
     def measureStateNTimes(self, n):
         """
