@@ -1,6 +1,6 @@
 from QuantumRegister import *
-from Qubit import Qubit
-import Operators as op
+from qubit import Qubit
+import operators as op
 
 import deutsch
 import deutschJozsa

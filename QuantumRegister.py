@@ -1,5 +1,5 @@
-from Qubit import Qubit
-import Operators as op
+from source.Qubit import Qubit
+from source.Operators import *
 import numpy as np
 import math
 
