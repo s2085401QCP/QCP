@@ -125,31 +125,30 @@ class QuantumRegister:
         assert type(target) == int and target < self.n_qubits_, f"Target Qubit is outwith range of Qubits \nnumber of qubits was initialised as {self.n_qubits_}, however target qubit was {target}"
         if control != None:
             if isinstance(control, int):
-                assert control < self.n_qubits_, f"Control Qubit is out of range of Qubits \nnumber of qubits was initialised as {self.n_qubits_},  however control qubit was {control}"
+                assert control < self.n_qubits_, f"Control Qubit is out of range of Qubits \nnumber of qubits was initialised as {self.n_qubits_}, however control qubit was {control}"
                 assert control != target, "Control qubit cannot equal target qubit"
             elif isinstance(control, tuple):
                 assert isinstance(control, tuple), "Control qubit must be an integer or a tuple"
-                assert all([type(i) == int for i in control]), "Control qubits must be integers"
+                assert all([isinstance(i, int) for i in control]), "Control qubits must be integers"
                 assert target not in control, "Target qubit cannot be in the control qubit tuple"
             else:
                 raise TypeError("Control qubit must be an integer or a tuple")
+            
+
         for i in range(self.n_states_):
 
             # checks if the target qubit is 0
             if (i >> target) & 1 == 0:
-                flag = False
+
                 # checks if the control qubit is 0, and if so skips this iteration
                 if control is not None:
                     if isinstance(control, tuple):
                         if not all([(i >> j) & 1 == 1 for j in control]):
-                            #flag = True
                             continue
                     elif isinstance(control, int):
                         if (i >> control) & 1 == 0:
-                            #flag = True
                             continue
-                # if flag:
-                #     continue
+                        
                 # a is the integer representation of the state where the target qubit is 0
                 a = i
 
