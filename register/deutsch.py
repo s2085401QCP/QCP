@@ -26,8 +26,7 @@ class Deutsch:
         Function which implements Deutsch's Algorithm, optional return of boolean
         :return: True if oracle is balanced, or False if constant
         """
-        for i in range(self.n_qubits_):
-            self.register.applyGate(gate = self.register.hadamard, target = i)
+        self.register.setEqualSuperposition()
         self.applyOracle()
         self.register.applyGate(gate = self.register.hadamard, target = 0)
         state = self.register.measureState()

@@ -23,7 +23,7 @@ class Grovers:
         self.register = register
         self.n_qubits_ = self.register.n_qubits_
         self.n_states_ = self.register.n_states_
-        self.iterations = int((math.pi/4) * math.sqrt(self.n_states_) - 0.5)
+        self.iterations = int((math.pi/4) * math.sqrt(self.n_states_))
          
 
     def applyOracle(self):

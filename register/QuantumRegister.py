@@ -7,17 +7,17 @@ class QuantumRegister:
     Class which simulates a Quantum Register
 
     Class Attributes: 
-        n_qubits = number of qubits to initialise class with
-        state = which state the class is initialised into, as an integer, set to 0
+        n_qubits = number of qubits to initialise class with;
+        state = which state the class is initialised into, as an integer, set to 0;
 
     Stored Gates are: 
-        hadamard
-        pauli X
-        pauli Y
-        pauli Z
-        Phase 
-        T
-        T dagger
+        hadamard;
+        pauli_x;
+        pauli_y;
+        pauli_z;
+        phase;
+        T;
+        T_dagger;
     """
     def __init__(self, n_qubits, state = 0):
 
@@ -53,6 +53,8 @@ class QuantumRegister:
         """
         Function which makes the register equally likely to be found in any state
         """
+        self.state_ = np.zeros(self.n_states_)
+        self.state_[0] = 1
         for i in range(self.n_qubits_):
             self.applyGate(gate = self.hadamard, target = i) 
     
@@ -61,7 +63,7 @@ class QuantumRegister:
         Function which collapses the wavefunction, and so the register goes into a singular state
         :type return_uncollapsed_state: Bool
         :param return_uncollapsed_state: If true, function returns the uncollapsed state
-        :return: index or index, state where index is the integer value of the state, and state is the uncollapsed state vector
+        :return: index or (index, state) where index is the integer value of the state, and state is the uncollapsed state vector
         """
         prob = np.abs((self.state_))**2
         index = np.random.choice(self.n_states_, p=prob)
@@ -87,7 +89,8 @@ class QuantumRegister:
             assert state.count("0") + state.count("1") == len(state), "input state must be a bitstring"
             assert int(state, 2) >= self.n_qubits_, "Bitstring input is greater than the number of states of the register"
             state = int(state, 2)
-        return self.state_[state] 
+        prob = abs(self.state_[state])**2
+        return prob 
 
     def measureStateNTimes(self, n):
         """
@@ -114,14 +117,23 @@ class QuantumRegister:
         :param gate: A 2x2 matrix which operates on a qubit
         :type target: int
         :param target: index of the target qubit
-        :type control: int
-        :param control: index of the control qubit, if not None
+        :type control: tuple, int or None
+        :param control: index of the control qubit(s), if not None
         """
         assert gate.shape == (2, 2), f"Gate Matrix has wrong dimensions, please input a 2x2 array \n input array was of shape {gate.shape}"
+        assert np.allclose(np.eye(len(gate)), gate.dot(gate.T.conj())), "Gate matrix must be Unitary"
         assert type(target) == int and target < self.n_qubits_, f"Target Qubit is outwith range of Qubits \nnumber of qubits was initialised as {self.n_qubits_}, however target qubit was {target}"
         if control != None:
-            assert type(control) == int and control < self.n_qubits_, f"Control Qubit is out of range of Qubits \nnumber of qubits was initialised as {self.n_qubits_},  however control qubit was {control}"
-            assert control != target, "Control qubit cannot equal target qubit"
+            if isinstance(control, int):
+                assert control < self.n_qubits_, f"Control Qubit is out of range of Qubits \nnumber of qubits was initialised as {self.n_qubits_}, however control qubit was {control}"
+                assert control != target, "Control qubit cannot equal target qubit"
+            elif isinstance(control, tuple):
+                assert isinstance(control, tuple), "Control qubit must be an integer or a tuple"
+                assert all([isinstance(i, int) for i in control]), "Control qubits must be integers"
+                assert target not in control, "Target qubit cannot be in the control qubit tuple"
+            else:
+                raise TypeError("Control qubit must be an integer or a tuple")
+            
 
         for i in range(self.n_states_):
 
@@ -129,10 +141,14 @@ class QuantumRegister:
             if (i >> target) & 1 == 0:
 
                 # checks if the control qubit is 0, and if so skips this iteration
-                if control != None:
-                    if (i >> control) & 1 == 0:
-                        continue
-                
+                if control is not None:
+                    if isinstance(control, tuple):
+                        if not all([(i >> j) & 1 == 1 for j in control]):
+                            continue
+                    elif isinstance(control, int):
+                        if (i >> control) & 1 == 0:
+                            continue
+                        
                 # a is the integer representation of the state where the target qubit is 0
                 a = i
 
