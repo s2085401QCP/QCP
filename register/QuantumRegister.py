@@ -1,4 +1,3 @@
-from Qubit import Qubit
 from register.Operators import *
 import numpy as np
 import math
@@ -106,7 +105,12 @@ class QuantumRegister:
             self.state_ = state
         return counts
 
-
+    def checkNormalised(self):
+        squaredState = self.state_**2
+        normalised = False
+        if np.isclose(sum(squaredState),1):
+            normalised = True
+        return normalised
 
     def applyGate(self, gate, target, control = None):
         """
