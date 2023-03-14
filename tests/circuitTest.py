@@ -2,7 +2,7 @@ from register.QuantumRegister import QuantumRegister
 import numpy as np
 
 def checkExpected(state,expected):
-    match = np.all(np.isclose(state,expected))
+    match = np.allclose(state,expected)
     return match
 
 def probabilityCheck():
@@ -23,12 +23,13 @@ def checkGateApplication(qubits,gate):
 def twoBitEntanglement():
     print("--------- TWO BIT ENTANGLEMENT ---------")
     # This entanglement is to ensure the premise of our register is sound
+    # It is used to non trivially entangle a two bit system
     # Following literature, a system of hadamard on qubit 0 and cnot on qubit 1
     # should produce a system of equal probabilities on state 00 and 11
     register = QuantumRegister(2)
     register.applyGate(register.hadamard,0)
     register.applyGate(register.pauli_x,1,0)
-    expected = [2**-.5, 0, 0, 2**-.5]
+    expected = np.array([2**-.5, 0, 0, 2**-.5])
     print("Expected state")
     print(expected)
     print()

@@ -70,8 +70,8 @@ def registerTest():
 	print()
 
 def dJTest():
-	print("--------- INIT DJ TEST ---------")
 	dJRegister = QuantumRegister(8)
+	print("--------- INIT DJ TEST ---------")
 
 	print("SHOULD FAIL - NOT FUNC")
 	intInp = objArgTest(deutschJozsa.DeutschJozsa,[1,1])
@@ -85,13 +85,14 @@ def dJTest():
 
 
 def groversTest():
+	
+	qubits = 16
+	n_states = int((qubits/2)**2)
+	groverRegister = QuantumRegister(qubits)
+	inputList = np.zeros(n_states)
+
 	print("--------- INIT GROVER TEST ---------")
 
-	qubits = 16
-	groverRegister = QuantumRegister(qubits)
-	inputList = [0]*int((qubits/2)**2)
-
-	
 	print("SHOULD FAIL - NOT FUNC")
 	stringInp = objArgTest(grovers.Grovers,["NOT A FUNC",1,1])
 	print(stringInp)

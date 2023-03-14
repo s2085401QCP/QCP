@@ -106,10 +106,8 @@ class QuantumRegister:
         return counts
 
     def checkNormalised(self):
-        squaredState = self.state_**2
-        normalised = False
-        if np.isclose(sum(squaredState),1):
-            normalised = True
+        squaredState = np.abs((self.state_))**2
+        normalised =  np.isclose(sum(squaredState),1)
         return normalised
 
     def applyGate(self, gate, target, control = None):
