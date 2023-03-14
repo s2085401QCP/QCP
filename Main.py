@@ -1,5 +1,4 @@
 from register.QuantumRegister import *
-from Qubit import Qubit
 from register.Operators import *
 
 from register.deutsch import *
