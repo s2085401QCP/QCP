@@ -104,7 +104,10 @@ def groversTest():
 	print()
 
 
-
-registerTest()
-dJTest()
-groversTest()
+if __name__ == "__main__":
+	
+	registerTest()
+	
+	dJTest()
+	
+	groversTest()
