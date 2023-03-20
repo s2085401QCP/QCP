@@ -107,6 +107,33 @@ class QuantumRegister:
             counts[index] += 1
             self.state_ = state
         return counts
+    
+    def measureQubitState(self, target):
+        """
+        Function that returns the collapsed state of a singular qubit
+        :type target: int
+        :param target: index of the qubit to be measured
+        :return: 0 or 1, the collapsed state of the qubit
+        """
+        prob_0 = 0
+        prob_1 = 0
+        for i in range(self.n_states_):
+            if (i >> target) & 1 == 0:
+                prob_0 += abs(self.state_[i])**2
+                j = i ^ (1 << target)
+                prob_1 += abs(self.state_[j])**2
+        state = np.random.choice([0, 1], p = (prob_0, prob_1))
+        if state == 0:
+            for i in range(self.n_states_):
+                if (i >> target) & 1 == 0:
+                    self.state_[i] /= np.sqrt(prob_0)
+                    self.state_[i ^ (1 << target)] = 0
+        else:
+            for i in range(self.n_states_):
+                if (i >> target) & 1 == 1:
+                    self.state_[i] /= np.sqrt(prob_1)
+                    self.state_[i ^ (1 << target)] = 0
+        return state
 
     def checkNormalised(self):
         squaredState = np.abs((self.state_))**2
