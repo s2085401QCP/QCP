@@ -7,8 +7,9 @@ class Grovers:
     Class which implements Grover's Algorithm 
 
     Attributes: 
-        oracle: A function which flips a target state of a register, as a function that takes and returns the register
+        oracle: A function which flips a target state of a register, as a function that takes and returns the registers state vector
         list: A list to search 
+        register: A quantum register with n_qubits >= log2(len(list))
     """
 
     def __init__(self, oracle, list, register):
