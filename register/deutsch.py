@@ -5,7 +5,8 @@ class Deutsch:
     Class which implements Deutsch's Algorithm
 
     Attributes: 
-        oracle: A function which is either balanced or constant, which returns 1 or 0
+        oracle: A function which is either balanced or constant, which takes a register object, and returns a state vector
+        register: A 2 qubit quantum register
     """
 
     def __init__(self, oracle, register):

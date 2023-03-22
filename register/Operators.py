@@ -57,29 +57,6 @@ def tensorProd(a, b):
 	# returns the tensor product in the calculated shape 
 	return product.reshape(result_dims)
 
-def kroneckerProduct(a, b):
-
-	assert type(a) is np.ndarray and type(b) is np.ndarray, "Input matrices were not numpy arrays"
-
-	a_new = a.reshape(*a.shape, 1, 1)
-	b_new = b.reshape(1, 1, *b.shape)
-
-	return (a_new * b_new).reshape(*(a.shape * b.shape))
-
-
-def readBitstring(bitstring, coeffs):
-	bits = list(map(int, list(bitstring)))
-
-	print(len(bits), len(coeffs))
-    
-	assert type(bitstring) == str, "Bitstring input was not of type: String"
-	assert len(bits) == len(coeffs), "Dimensions of bitstring and coefficients array did not match"
-	assert len(coeffs[0]) == 2, "Coefficients are not for binary states"
-
-	values = np.zeros(len(bits))
-	for i in range(len(bits)): 
-		values[i] = coeffs[i][bits[i]] 
-	return values
 
 
 

@@ -6,7 +6,7 @@ class DeutschJozsa:
     Class which implements the Deutsch-Jozsa Algorithm
 
     Attributes: 
-        oracle : Function which applies to a quantum register and returns the register in a new state 
+        oracle : Function which applies to a quantum register and returns the registers state vector in a new state  
         n_qubits: number of qubits in the register, max value for the oracle must be 2 ** n_qubits - 1
 
     """
