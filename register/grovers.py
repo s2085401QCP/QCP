@@ -32,9 +32,16 @@ class Grovers:
         
 
     def flipByMean(self):
-        mu = (1/self.n_states_) * np.sum(self.register.state_)
-        for i in range(self.register.n_states_):
-            self.register.state_[i] = self.register.state_[i] - 2*mu
+        for i in range(self.n_qubits_):
+            self.register.applyGate(gate = self.register.hadamard, target = i)
+        for i in range(self.n_qubits_):
+            self.register.applyGate(gate = self.register.pauli_x, target = i)
+        control = tuple([x for x in range(1, self.n_qubits_)])
+        self.register.applyGate(gate = self.register.pauli_z, target = 0, control = control)
+        for i in range(self.n_qubits_):
+            self.register.applyGate(gate = self.register.pauli_x, target = i)
+        for i in range(self.n_qubits_):
+            self.register.applyGate(gate = self.register.hadamard, target = i)
 
     def groversAlgorithm(self):
         self.register.setEqualSuperposition()
